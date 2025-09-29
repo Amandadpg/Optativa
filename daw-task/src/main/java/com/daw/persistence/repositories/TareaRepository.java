@@ -3,10 +3,10 @@ package com.daw.persistence.repositories;
 import org.springframework.data.repository.ListCrudRepository;
 
 import com.daw.persistence.entities.Tarea;
-import java.util.List;
 
 
-public interface TareaRepository extends ListCrudRepository<Tarea, Integer>{
+public interface TareaRepository extends ListCrudRepository<Tarea, Integer>{ //2
 
-	List<Tarea> f
+	
+	
 }
