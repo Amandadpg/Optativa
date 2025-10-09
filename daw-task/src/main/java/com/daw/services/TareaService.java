@@ -28,7 +28,7 @@ public class TareaService {
 	// 6
 	//findbyId 
 	public Tarea findById(int idTarea) { //devuelve una tarea
-		if(this.tareaRepository.existsById(idTarea)) { //11
+		if(!this.tareaRepository.existsById(idTarea)) { //11
 			throw new TareaNotFoundException("La tarea con id " + idTarea +" no existe");
 		}
 		return this.tareaRepository.findById(idTarea).get();
@@ -46,6 +46,31 @@ public class TareaService {
 		tarea.setFechaCreacion(LocalDate.now());
 		
 		return this.tareaRepository.save(tarea);
+	}
+	
+	//19
+	public Tarea update(Tarea tarea, int idTarea) {
+		if (tarea.getId() != idTarea) {
+			throw new TareaException("El id del body y el id del path no coinciden");
+		}
+		if(!this.tareaRepository.existsById(idTarea)) { 
+			throw new TareaNotFoundException("La tarea con id " + idTarea +" no existe");
+		}
+		if (tarea.getEstado() != null) {
+			throw new TareaException("No se puede modificar el estado.");
+		}
+		if (tarea.getFechaCreacion() != null) {
+			throw new TareaException("No se puede modificar la fecha de creacion.");
+		}
+		
+		Tarea tareaBD = this.findById(idTarea);
+		tareaBD.setDescripcion(tarea.getDescripcion());
+		tareaBD.setTitulo(tarea.getTitulo());
+		tareaBD.setFechaVencimiento(tarea.getFechaVencimiento());
+		
+		
+		return this.tareaRepository.save(tarea);
+		
 	}
 	
 	//deleteById
