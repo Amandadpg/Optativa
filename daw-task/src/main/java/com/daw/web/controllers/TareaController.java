@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,8 +27,8 @@ public class TareaController {
 	
 	// con poner el GET ya vale, no hace falta poner el nombre
 	@GetMapping
-	public List<Tarea> list() {
-		return this.tareaService.findAll();
+	public ResponseEntity<List<Tarea>> list() {
+		return ResponseEntity.ok(this.tareaService.findAll());
 	}
 	
 	@GetMapping("/{idTarea}") // 10    13(lo ha cambiado entero)
@@ -68,6 +67,40 @@ public class TareaController {
 		}
 		
 	}
+	
+	//25(es de uno de antes)
+	@PutMapping("/{idTarea}/iniciar")
+	public ResponseEntity<?> iniciarTarea(@PathVariable int idTarea){
+		try {
+			return ResponseEntity.ok(this.tareaService.marcaEnProgreso(idTarea));
+		}
+		catch(TareaNotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+		}
+		catch (TareaException ex) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+		}
+	}
+	
+	
+	
+	
+	//24
+	@GetMapping("/pendiente")
+	public ResponseEntity<?> pendiente() {
+		return ResponseEntity.ok(this.tareaService.pendiente());
+	}
+	
+	@GetMapping("/en-progreso")
+	public ResponseEntity<?> enProgreso() {
+		return ResponseEntity.ok(this.tareaService.enProgreso());
+	}
+	
+	@GetMapping("/completada")
+	public ResponseEntity<?> completada() {
+		return ResponseEntity.ok(this.tareaService.completada());
+	}
+	
 	
 	
 }
