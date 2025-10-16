@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.daw.persistence.entities.Tarea;
@@ -82,7 +83,17 @@ public class TareaController {
 		}
 	}
 	
-	
+	//27
+	@PutMapping("/(idTarea)/completar")
+	public ResponseEntity<?> completarTarea(@PathVariable int idTarea) {
+		try {
+			return ResponseEntity.ok(this.tareaService.completarTarea(idTarea));
+		} catch (TareaNotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+		} catch (TareaException ex) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+		}
+	}
 	
 	
 	//24
@@ -101,7 +112,23 @@ public class TareaController {
 		return ResponseEntity.ok(this.tareaService.completada());
 	}
 	
+	//29
+	@GetMapping("/vencidas")
+    public List<Tarea> obtenerTareasVencidas() {
+        return tareaService.tareasVencidas();
+    }
+	  
 	
+	@GetMapping("/no-vencidas")
+    public List<Tarea> obtenerTareasNoVencidas() {
+        return tareaService.tareasNoVencidas();
+    }
+	
+	//31
+	@GetMapping("/buscar")
+    public List<Tarea> buscarTareasPorTitulo(@RequestParam String titulo) {
+        return tareaService.getTareasPorTitulo(titulo);
+    }
 	
 }
 

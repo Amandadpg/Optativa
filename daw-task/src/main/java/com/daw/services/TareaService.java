@@ -2,6 +2,8 @@ package com.daw.services;
 
 import java.time.LocalDate;
 import java.util.List; //Esta libreria CUIDADO
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -93,6 +95,17 @@ public class TareaService {
 		return this.tareaRepository.save(tarea);
 	}
 	
+	public Tarea completarTarea(int idTarea) {
+        Optional<Tarea> tareaOptional = tareaRepository.findById(idTarea);
+        if (tareaOptional.isPresent()) {
+            Tarea tarea = tareaOptional.get();
+            if (tarea.getEstado() == Estado.EN_PROCESO) {
+                tarea.setEstado(Estado.COMPLETADA);
+            }
+        }
+        return this.tareaRepository.save(tareaOptional);
+    }
+	
 	//23
 	public List<Tarea> pendiente(){
 		return this.tareaRepository.findByEstado(Estado.PENDIENTE);
@@ -107,6 +120,25 @@ public class TareaService {
 	}
 	
 	//26
+	
+	public List<Tarea> tareasVencidas() {
+		return this.tareaRepository.findByFechaVencimientoBefore(LocalDate.now());
+	}
+	
+	public List<Tarea> tareasNoVencidas() {
+        LocalDate despues = LocalDate.now();
+        return tareaRepository.findByFechaVencimientoAfter(despues);
+    }
+	
+	
+	
+	
+	//30
+	public List<Tarea> getTareasPorTitulo(String titulo) {
+        return tareaRepository.findByTitulo(titulo);
+    }
+	
+	
 	
 }
 
