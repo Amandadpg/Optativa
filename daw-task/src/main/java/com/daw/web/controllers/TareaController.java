@@ -84,7 +84,7 @@ public class TareaController {
 	}
 	
 	//27
-	@PutMapping("/(idTarea)/completar")
+	@PutMapping("/{idTarea}/completar")
 	public ResponseEntity<?> completarTarea(@PathVariable int idTarea) {
 		try {
 			return ResponseEntity.ok(this.tareaService.completarTarea(idTarea));
