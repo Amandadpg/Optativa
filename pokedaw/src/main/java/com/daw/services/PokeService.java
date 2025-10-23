@@ -43,4 +43,45 @@ public class PokeService {
 			
 			return this.pokeRepository.save(pokemon);
 		}
+		
+		public Pokemon update(Pokemon pokemon, int idPokemon) {
+			if (pokemon.getId() != idPokemon) {
+				throw new PokemonException("Los ids no coinciden");
+			}
+			if(!this.pokeRepository.existsById(idPokemon)) { 
+				throw new PokemonNotFoundException("La tarea con id " + idPokemon +" no existe");
+			}
+			if (pokemon.getCapturado() != null) {
+				throw new PokemonException("No se puede modificar si esta capturado o no.");
+			}
+			if (pokemon.getFechaCaptura() != null) {
+				throw new PokemonException("No se puede modificar la fecha de captura.");
+			}
+			
+			Pokemon pokemonBD = this.findById(idPokemon);
+			pokemonBD.setNumeroPokedex(pokemon.getNumeroPokedex());
+			pokemonBD.setTitulo(pokemon.getTitulo());
+			
+			
+			return this.pokeRepository.save(pokemonBD);
+			
+		}
+		
+		public void delete(int idPokemon) {
+			if(!this.pokeRepository.existsById(idPokemon)) {
+				throw new PokemonNotFoundException("El pokemon no existe.");
+			}
+			this.pokeRepository.deleteById(idPokemon);
+		}
+		
+		
+		
+		
+//		public List<Pokemon> buscarPorTipo(String Tipo) {
+//			try {
+//				
+//			}catch {
+//				
+//			}
+//		}
 }
