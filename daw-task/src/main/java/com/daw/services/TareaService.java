@@ -71,7 +71,7 @@ public class TareaService {
 		tareaBD.setFechaVencimiento(tarea.getFechaVencimiento());
 		
 		
-		return this.tareaRepository.save(tarea);
+		return this.tareaRepository.save(tareaBD);
 		
 	}
 	
