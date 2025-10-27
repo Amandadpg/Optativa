@@ -1,8 +1,10 @@
 package com.daw.web.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,9 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.daw.persistence.entities.Pokemon;
+import com.daw.persistence.entities.Tipo;
 import com.daw.services.PokeService;
 import com.daw.services.exception.PokemonException;
 import com.daw.services.exception.PokemonNotFoundException;
@@ -71,6 +75,7 @@ public class PokeController {
 		
 	}
 	
+	//http://localhost:8081/pokemon/6
 	@DeleteMapping("/{idPokemon}")
 	public ResponseEntity<?> delete(@PathVariable int idPokemon) {
 
@@ -81,5 +86,50 @@ public class PokeController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 		}
 	}
+	
+	
+	//http://localhost:8081/pokemon/numero/9
+	@GetMapping("/numero/{numeroPokedex}")
+	public ResponseEntity<?> findByNumero(@PathVariable int numeroPokedex) {
+	    try {
+	        return ResponseEntity.ok(this.pokeService.buscarPorNumeroPokedex(numeroPokedex));
+	    } catch (PokemonNotFoundException e) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+	    }
+	}
+	
+	//
+	@GetMapping("/capturados/{inicio}/{fin}")
+	public ResponseEntity<List<Pokemon>> buscarPorFechas(@PathVariable String inicio, @PathVariable String fin) {
+
+	    LocalDate fechaInicio = LocalDate.parse(inicio);
+	    LocalDate fechaFin = LocalDate.parse(fin);
+
+	    List<Pokemon> lista = pokeService.buscarPorRangoFechas(fechaInicio, fechaFin);
+	    return ResponseEntity.ok(lista);
+	}
+
+	
+	//http://localhost:8081/pokemon/tipo/FUEGO
+	@GetMapping("/tipo/{tipo}")
+	public ResponseEntity<List<Pokemon>> findByTipo(@PathVariable String tipo) {
+	    return ResponseEntity.ok(this.pokeService.BuscarPorTipo(Tipo.valueOf(tipo.toUpperCase())));
+	}
+	
+	//http://localhost:8081/pokemon/tipo/8
+	@PutMapping("/tipo/{idPokemon}")
+	public ResponseEntity<?> cambiarTipo(@PathVariable int idPokemon,@RequestBody Pokemon pokemon) {
+
+	    try {
+	        Pokemon actualizado = pokeService.cambiarTipo(idPokemon, pokemon.getTipo1(), pokemon.getTipo2());
+	        return ResponseEntity.ok(actualizado);
+	    } catch (PokemonNotFoundException e) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+	    } catch (PokemonException e) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+	    }
+	}
+	
+	
 	
 }

@@ -1,6 +1,7 @@
 package com.daw.services;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.daw.persistence.entities.Pokeball;
 import com.daw.persistence.entities.Pokemon;
+import com.daw.persistence.entities.Tipo;
 import com.daw.persistence.repositories.PokeRepository;
 import com.daw.services.exception.PokemonException;
 import com.daw.services.exception.PokemonNotFoundException;
@@ -75,13 +77,46 @@ public class PokeService {
 		}
 		
 		
+		public Pokemon buscarPorNumeroPokedex(int numeroPokedex) {
+		    List<Pokemon> lista = this.pokeRepository.findAll();
+		    for (Pokemon p : lista) {
+		        if (p.getNumeroPokedex() == numeroPokedex) {
+		            return p;
+		        }
+		    }
+		    throw new PokemonNotFoundException("No se encontró Pokémon con número de Pokédex " + numeroPokedex);
+		}
 		
+		public List<Pokemon> buscarPorRangoFechas(LocalDate inicio, LocalDate fin) {
+	        return pokeRepository.findByFechaCapturaBetween(inicio, fin);
+	    }
 		
-//		public List<Pokemon> buscarPorTipo(String Tipo) {
-//			try {
-//				
-//			}catch {
-//				
-//			}
-//		}
+		public List<Pokemon> BuscarPorTipo(Tipo tipo) {
+		    List<Pokemon> resultado = new ArrayList<>();
+		    for (Pokemon p : this.pokeRepository.findAll()) {
+		        if (tipo.equals(p.getTipo1()) || tipo.equals(p.getTipo2())) {
+		            resultado.add(p);
+		        }
+		    }
+		    return resultado;
+		}
+		
+		public Pokemon cambiarTipo(int idPokemon, Tipo nuevoTipo1, Tipo nuevoTipo2) {
+		    Pokemon pokemon = pokeRepository.findById(idPokemon)
+		    			.orElseThrow(() -> new PokemonNotFoundException("El Pokémon con ID " + idPokemon + " no existe"));
+		    
+		    if (nuevoTipo1 != null) {
+		        pokemon.setTipo1(nuevoTipo1);
+		    }
+		    if (nuevoTipo2 != null) {
+		        pokemon.setTipo2(nuevoTipo2);
+		    }
+		    
+		    if (pokemon.getTipo1() != null && pokemon.getTipo1().equals(pokemon.getTipo2())) {
+		        throw new PokemonException("Un Pokémon no puede tener dos tipos iguales.");
+		    }
+
+		    return pokeRepository.save(pokemon);
+		}
+		
 }
