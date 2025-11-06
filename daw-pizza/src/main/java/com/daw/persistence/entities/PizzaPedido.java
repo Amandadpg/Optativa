@@ -29,7 +29,6 @@ public class PizzaPedido {
 	@Column(name = "id_pizza")
 	private int idPizza;
 	
-	
 	@Column(columnDefinition = "DECIMAL(2,1)")
 	private double cantidad;
 	
