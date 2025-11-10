@@ -31,51 +31,5 @@ public class PizzaController {
 		return ResponseEntity.ok(this.pizzaService.findAll());
 	}
 	
-	@GetMapping("/{idPizza}")
-	public ResponseEntity<?> findById(@PathVariable int idPizza) { 
-		try {
-			return ResponseEntity.ok(this.pizzaService.findById(idPizza));
-		}
-		catch (PizzaNotFoundException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-		}
-	}
-	
-	@PostMapping
-	public ResponseEntity<?> create(@RequestBody Pizza pizza) {
-		try {
-			return ResponseEntity.status(HttpStatus.CREATED).body(this.pizzaService.create(pizza));
-		}
-		catch(PizzaException ex) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-			
-		}
-	}
-	
-	@PutMapping("/{idPizza}")
-	public ResponseEntity<?> update(@PathVariable int idPizza, @RequestBody Pizza pizza){
-		try {
-			return ResponseEntity.ok(this.pizzaService.update(pizza, idPizza));
-		}
-		catch(PizzaNotFoundException ex) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-		}
-		catch (PizzaException ex) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-		}
-		
-	}
-	
-	@DeleteMapping("/{idPizza}")
-	public ResponseEntity<?> delete(@PathVariable int idPizza) {
-
-		try {
-			this.pizzaService.delete(idPizza);
-			return ResponseEntity.ok().build();
-		} catch (PizzaNotFoundException ex) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-		}
-	}
-	
 	
 }

@@ -39,6 +39,7 @@ public class Pizza {
 	@Column(columnDefinition = "BOOLEAN")
 	private boolean disponible;
 	
-
+//En el diagrama aparece de Pizza a PizzaPedido una x, eso significa que no interesa que
+//salgan los pedidos
 	
 }
