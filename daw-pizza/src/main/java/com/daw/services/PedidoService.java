@@ -4,13 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.daw.persistence.entities.Cliente;
 import com.daw.persistence.entities.Pedido;
 import com.daw.persistence.repositories.PedidoRepository;
 import com.daw.services.exception.ClienteException;
 import com.daw.services.exception.PedidoNotFoundException;
 import com.daw.services.exception.PizzaNotFoundException;
+import com.daw.persistence.entities.Pedido;
+import com.daw.persistence.repositories.PedidoRepository;
 
 @Service
 public class PedidoService {

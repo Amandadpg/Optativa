@@ -61,5 +61,4 @@ public class PizzaService {
 		}
 		this.pizzaRepository.deleteById(idPizza);
 	}
-	
 }

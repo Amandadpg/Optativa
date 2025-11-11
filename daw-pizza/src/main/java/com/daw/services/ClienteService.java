@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.daw.persistence.entities.Cliente;
-import com.daw.persistence.entities.Pizza;
 import com.daw.persistence.repositories.ClienteRepository;
 import com.daw.services.exception.ClienteException;
 import com.daw.services.exception.ClienteNotFoundException;
 import com.daw.services.exception.PizzaNotFoundException;
+
 
 @Service
 public class ClienteService {
