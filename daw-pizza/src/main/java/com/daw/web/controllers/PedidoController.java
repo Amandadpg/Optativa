@@ -82,4 +82,16 @@ public class PedidoController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 		}
 	}
+	
+	@PutMapping("/{idPedido}/notas")
+    public ResponseEntity<?> añadirNotas(@PathVariable int idPedido,
+                                         @RequestBody Pedido pedido) {
+		try {
+	        String nuevasNotas = pedido.getNotas(); 
+	        Pedido actualizado = pedidoService.añadirNotas(idPedido, nuevasNotas);
+	        return ResponseEntity.ok(actualizado);
+	    } catch (PedidoNotFoundException ex) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+	    }
+    }
 }

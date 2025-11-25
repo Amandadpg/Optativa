@@ -16,6 +16,7 @@ public class PedidoMapper {
 		dto.setId(pedido.getId());
 		dto.setFecha(pedido.getFecha());
 		dto.setMetodo(pedido.getMetodo());
+		dto.setTotal(pedido.getTotal());
 		
 		//Esto viene de cliente
 		dto.setCliente(pedido.getCliente().getNombre());
@@ -36,5 +37,15 @@ public class PedidoMapper {
 		dto.setPizzas(pizzas);
 		
 		return dto;
+	}
+	
+	public static List<PedidoDTO> toDTOsDeclarativo(List<Pedido> pedidos){
+		List<PedidoDTO> dtos = new ArrayList<PedidoDTO>();
+		
+		for(Pedido p : pedidos) {
+			dtos.add(PedidoMapper.toDTO(p));
+		}
+		
+		return dtos;
 	}
 }

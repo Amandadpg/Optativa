@@ -1,7 +1,5 @@
 package com.daw.services.dto;
 
-import com.daw.persistence.entities.Pizza;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class PizzaPedidoOutputDTO {
 
-	private Integer id;
+	private int id;
 	private Double cantidad;
 	private Double precio;
 	private Integer idPizza;

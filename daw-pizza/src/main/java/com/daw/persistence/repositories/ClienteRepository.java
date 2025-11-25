@@ -8,5 +8,7 @@ import com.daw.persistence.entities.Cliente;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
 
+	Cliente findByTelefono(String telefono);
+
 	
 }

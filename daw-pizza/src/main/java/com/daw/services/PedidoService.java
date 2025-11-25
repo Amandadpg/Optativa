@@ -65,6 +65,22 @@ public class PedidoService {
 		this.pedidoRepository.deleteById(idPedido);
 	}
 	
+	public Pedido añadirNotas(int idPedido, String notas) {
+
+        if (!pedidoRepository.existsById(idPedido)) {
+            throw new PedidoNotFoundException("El pedido con id " + idPedido + " no existe");
+        }
+
+        Pedido pedido = pedidoRepository.findById(idPedido).get();
+
+        if (pedido.getNotas() == null) {
+            pedido.setNotas(notas);
+        } else {
+            pedido.setNotas(pedido.getNotas() + " | " + notas);
+        }
+
+        return pedidoRepository.save(pedido);
+    }
 
 	
 }

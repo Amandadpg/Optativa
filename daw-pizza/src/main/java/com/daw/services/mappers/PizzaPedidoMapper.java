@@ -13,7 +13,7 @@ public class PizzaPedidoMapper {
 		dto.setCantidad(pizzaPedido.getCantidad());
 		dto.setPrecio(pizzaPedido.getPrecio());
 		dto.setIdPizza(pizzaPedido.getIdPizza());
-		dto.setPizza(pizzaPedido.getPizza());
+		dto.setPizza(pizzaPedido.getPizza().getNombre());
 		
 		
 		return dto;

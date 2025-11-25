@@ -62,4 +62,27 @@ public class ClienteService {
 		}
 		this.clienteRepository.deleteById(idCliente);
 	}
+	
+	public Cliente modificarDireccion(int idCliente, String direccionNueva) {
+	    if (!clienteRepository.existsById(idCliente)) {
+	        throw new ClienteNotFoundException("El cliente con id " + idCliente + " no existe");
+	    }
+
+	    Cliente cliente = clienteRepository.findById(idCliente).get();
+	    cliente.setDireccion(direccionNueva);
+
+	    return clienteRepository.save(cliente);
+	}
+	
+	public Cliente buscarPorTelefono(String telefono) {
+	    Cliente cliente = this.clienteRepository.findByTelefono(telefono);
+
+	    if (cliente == null) {
+	        throw new ClienteNotFoundException("No se encontró cliente con teléfono: " + telefono);
+	    }
+
+	    return cliente;
+	}
+
+
 }
