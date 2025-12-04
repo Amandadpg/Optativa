@@ -22,9 +22,7 @@ public class PizzaPedidoMapper {
 		
 	}
 	
-//	public static List<PizzaPedidoOutputDTO> toDTOs(List<pizzaPedidos>) {
-//		return pizzaPedidos.stream().map(pp-> {
-//			toDTO(pp)).toList();
-//		})
-//	}
+	public static List<PizzaPedidoOutputDTO> toDtos(List<PizzaPedido> pizzaPedidos){
+		return pizzaPedidos.stream().map(pp -> toDTO(pp)).toList();
+	}
 }
